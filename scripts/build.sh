@@ -73,13 +73,13 @@ configure() {
    
 
    if [ "$OS" == "MacOSX" ]; then
-      ${SRC_DIR}/Configure macos-$ARCH no-asm no-shared --prefix="${PREFIX}" &> "${PREFIX}.config.log"
+      ${SRC_DIR}/Configure macos-$ARCH no-async no-shared no-tests --prefix="${PREFIX}" &> "${PREFIX}.config.log"
    elif [ "$OS" == "MacOSX_Catalyst" ]; then
-      ${SRC_DIR}/Configure mac-catalyst-$ARCH no-asm no-shared --prefix="${PREFIX}" &> "${PREFIX}.config.log"
+      ${SRC_DIR}/Configure mac-catalyst-$ARCH no-async no-shared no-tests --prefix="${PREFIX}" &> "${PREFIX}.config.log"
    elif [ "$OS" == "iPhoneSimulator" ]; then
-      ${SRC_DIR}/Configure ios-sim-cross-$ARCH no-asm no-shared --prefix="${PREFIX}" &> "${PREFIX}.config.log"
+      ${SRC_DIR}/Configure ios-sim-cross-$ARCH no-async no-shared no-tests --prefix="${PREFIX}" &> "${PREFIX}.config.log"
    elif [ "$OS" == "iPhoneOS" ]; then
-      ${SRC_DIR}/Configure ios-cross-$ARCH no-asm no-shared --prefix="${PREFIX}" &> "${PREFIX}.config.log"
+      ${SRC_DIR}/Configure ios-cross-$ARCH no-async no-shared no-tests --prefix="${PREFIX}" &> "${PREFIX}.config.log"
    fi
 }
 
@@ -115,7 +115,7 @@ build()
 
    LOG_PATH="${PREFIX}.build.log"
    echo "Building ${LOG_PATH}"
-   make &> ${LOG_PATH}
+   make -j8 &> ${LOG_PATH}
    make install &> ${LOG_PATH}
    cd ${BASE_PWD}
 
@@ -263,6 +263,6 @@ if [ ! -f "${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz" ]; then
    rm -f "${SCRIPT_DIR}/../openssl-${OPENSSL_VERSION}.tar.gz.sha256"
 fi
 
-build_ios
+#build_ios
 build_macos
-build_catalyst
+#build_catalyst
